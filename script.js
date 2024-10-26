@@ -3,7 +3,7 @@ async function fetchData() {
     const conductance = 760;
     const pump = "IXH3050H";
 
-    const response = await fetch(`https://your-backend-service.onrender.com/api/multiply?conductance=${conductance}&pump=${pump}`);
+    const response = await fetch(`https://sugook-github-io.onrender.com/api/multiply?conductance=${conductance}&pump=${pump}`);
     const data = await response.json();
 
     console.log(data); // {"result": 200, "pump": "IXH3050H"}
