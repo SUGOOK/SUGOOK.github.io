@@ -1,16 +1,24 @@
-// API에서 데이터를 가져오는 JavaScript 코드
-async function fetchData() {
-    const conductance = 760;
-    const pump = "IXH3050H";
+document.getElementById('input-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-    const response = await fetch(`https://sugook-github-io.onrender.com/api/multiply?conductance=${conductance}&pump=${pump}`);
-    const data = await response.json();
+    const a = parseFloat(document.getElementById('input-a').value);
+    const b = parseFloat(document.getElementById('input-b').value);
+    const c = parseFloat(document.getElementById('input-c').value);
+    const d = parseFloat(document.getElementById('input-d').value);
 
-    console.log(data); // {"result": 200, "pump": "IXH3050H"}
+    const response = await fetch('https://your-backend-url.onrender.com/api/calculate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ a, b, c, d }),
+    });
 
-    // HTML에 결과 표시
-    document.getElementById('output').innerText = `Result: ${data.result}, Pump: ${data.pump}`;
-}
-
-// 페이지 로드 시 API 호출
-window.onload = fetchData;
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById('result').innerText = `Result: ${data.result}`;
+    } else {
+        const error = await response.json();
+        document.getElementById('result').innerText = `Error: ${error.detail}`;
+    }
+});
