@@ -1,30 +1,22 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from mkvactrannumpy import calculate_value
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# CORS 설정: GitHub Pages에서의 요청 허용
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://sugook.github.io"],  # GitHub Pages 도메인 허용
+    allow_origins=["https://sugook.github.io"],
     allow_credentials=True,
-    allow_methods=["*"],  # 모든 HTTP 메서드 허용
-    allow_headers=["*"],  # 모든 헤더 허용
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-
-# 입력값을 받기 위한 모델 정의
-class InputData(BaseModel):
-    a: float
-    b: float
-    c: float
-    d: float
-
+# /api/calculate 엔드포인트 정의
 @app.post("/api/calculate")
-def perform_calculation(data: InputData):
+def calculate(a: int, b: int, c: int, d: int):
     try:
-        result = calculate_value(data.a, data.b, data.c, data.d)
+        result = (a + b) * (c - d)  # 예제 계산
         return {"result": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
